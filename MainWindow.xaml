@@ -1,0 +1,174 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pirlogeanu_AlexandruGabriel_Proiect"
+        xmlns:RestaurantModel="clr-namespace:RestaurantModel;assembly=RestaurantModel" x:Class="Pirlogeanu_AlexandruGabriel_Proiect.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ospatariViewSource" d:DesignSource="{d:DesignInstance {x:Type RestaurantModel:Ospatari}, CreateList=True}"/>
+        <CollectionViewSource x:Key="meseViewSource" d:DesignSource="{d:DesignInstance {x:Type RestaurantModel:Mese}, CreateList=True}"/>
+        <CollectionViewSource x:Key="meseComenzisViewSource" d:DesignSource="{d:DesignInstance {x:Type RestaurantModel:Comenzi}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="tbCtrlRestaurant" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="782">
+            <TabItem Header="Ospatari">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource ospatariViewSource}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="349*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="ospatariDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="227.164,10,50,210" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn x:Name="data_angajariiColumn" Header="data angajarii" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding data_angajarii, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="numeColumn" Binding="{Binding nume}" Header="nume" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="oidColumn" Binding="{Binding oid}" Header="oid" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="salariuColumn" Binding="{Binding salariu}" Header="salariu" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="231.164,243,0,0" VerticalAlignment="Top" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="data angajarii:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="data_angajariiDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding data_angajarii, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+                        <Label Content="nume:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="numeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding nume, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="oid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="oidTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding oid, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
+                        <Label Content="salariu:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox x:Name="salariuTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding salariu, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                    </Grid>
+                    <Button x:Name="btnNewOsp" Content="New" HorizontalAlignment="Left" Margin="0.164,31,0,0" VerticalAlignment="Top" Width="75" Click="btnNewOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnEditOsp" Content="Edit" HorizontalAlignment="Left" Margin="0.164,70,0,0" VerticalAlignment="Top" Width="75" Click="btnEditOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnDeleteOsp" Content="Delete" HorizontalAlignment="Left" Margin="0.164,109,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnSaveOsp" Content="Save" HorizontalAlignment="Left" Margin="0.164,275,0,0" VerticalAlignment="Top" Width="75" Click="btnSaveOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnCancelOsp" Content="Cancel" HorizontalAlignment="Left" Margin="0.164,320,0,0" VerticalAlignment="Top" Width="75" Click="btnCancelOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnPrevOsp" Content="Previous" HorizontalAlignment="Left" Margin="222.164,200,0,0" VerticalAlignment="Top" Width="75" Click="btnPrevOsp_Click" Grid.Column="1"/>
+                    <Button x:Name="btnNextOsp" Content="Next" HorizontalAlignment="Left" Margin="572.164,200,0,0" VerticalAlignment="Top" Width="75" Click="btnNextOsp_Click" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Mese">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource meseViewSource}">
+                    <DataGrid x:Name="meseDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="464,10,53,208" RowDetailsVisibilityMode="VisibleWhenSelected">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="amplasareColumn" Binding="{Binding amplasare}" Header="amplasare" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="capacitateColumn" Binding="{Binding capacitate}" Header="capacitate" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="midColumn" Binding="{Binding mid}" Header="mid" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid2" HorizontalAlignment="Left" Margin="492,257,0,0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="amplasare:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="amplasareTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding amplasare, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="capacitate:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="capacitateTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding capacitate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="mid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="midTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding mid, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
+                    </Grid>
+                    <Button x:Name="btnNewMasa" Content="New" HorizontalAlignment="Left" Margin="164,31,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnNewMasa_Click"/>
+                    <Button x:Name="btnEditMasa" Content="Edit" HorizontalAlignment="Left" Margin="164,70,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnEditMasa_Click"/>
+                    <Button x:Name="btnDeleteMasa" Content="Delete" HorizontalAlignment="Left" Margin="164,109,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnDeleteMasa_Click"/>
+                    <Button x:Name="btnSaveMasa" Content="Save" HorizontalAlignment="Left" Margin="164,275,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnSaveMasa_Click"/>
+                    <Button x:Name="btnCancelMasa" Content="Cancel" HorizontalAlignment="Left" Margin="164,320,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnCancelMasa_Click"/>
+                    <Button x:Name="btnPrevMasa" Content="Previous" HorizontalAlignment="Left" Margin="462,200,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnPrevMasa_Click"/>
+                    <Button x:Name="btnNextMasa" Content="Next" HorizontalAlignment="Left" Margin="652,200,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnNextMasa_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Comenzi" Height="22" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource meseComenzisViewSource}">
+                    <DataGrid x:Name="comenzisDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="363,33,69,194" RowDetailsVisibilityMode="VisibleWhenSelected" SelectionChanged="comenzisDataGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="cidColumn" Binding="{Binding cid}" Header="cid" Width="SizeToHeader"/>
+                            <DataGridTemplateColumn x:Name="datacColumn" Header="datac" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding datac, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="midColumn1" Binding="{Binding mid}" Header="mid" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="oidColumn1" Binding="{Binding oid}" Header="oid" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid4" HorizontalAlignment="Left" Margin="383,252,0,0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="oid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="oidComboBox" Grid.Column="1" DisplayMemberPath="oid" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120" >
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
+                    </Grid>
+                    <Grid x:Name="grid6" HorizontalAlignment="Left" Margin="383,333,0,0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="datac:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="datacDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding datac, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid x:Name="grid3" HorizontalAlignment="Left" Margin="383,296,0,0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="mid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="midComboBox" Grid.Column="1" DisplayMemberPath="mid" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120">
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
+                    </Grid>
+                    <Button x:Name="btnNewComanda" Content="New" HorizontalAlignment="Left" Margin="164,31,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnNewComanda_Click" />
+                    <Button x:Name="btnEditComanda" Content="Edit" HorizontalAlignment="Left" Margin="164,70,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnEditComanda_Click" />
+                    <Button x:Name="btnDeleteComanda" Content="Delete" HorizontalAlignment="Left" Margin="164,109,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnDeleteComanda_Click"/>
+                    <Button x:Name="btnSaveComanda" Content="Save" HorizontalAlignment="Left" Margin="164,275,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnSaveComanda_Click" />
+                    <Button x:Name="btnCancelComanda" Content="Cancel" HorizontalAlignment="Left" Margin="164,320,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnCancelComanda_Click" />
+                    <Button x:Name="btnPrevComanda" Content="Previous" HorizontalAlignment="Left" Margin="362,200,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnPrevComanda_Click"/>
+                    <Button x:Name="btnNextComanda" Content="Next" HorizontalAlignment="Left" Margin="632,200,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnNextComanda_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
