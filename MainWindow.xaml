@@ -100,7 +100,12 @@
             </TabItem>
             <TabItem Header="Comenzi" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5" DataContext="{StaticResource meseComenzisViewSource}">
-                    <DataGrid x:Name="comenzisDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="363,33,69,194" RowDetailsVisibilityMode="VisibleWhenSelected" SelectionChanged="comenzisDataGrid_SelectionChanged">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="74*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="697*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="comenzisDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="284,33,69,194" RowDetailsVisibilityMode="VisibleWhenSelected" SelectionChanged="comenzisDataGrid_SelectionChanged" Grid.Column="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="cidColumn" Binding="{Binding cid}" Header="cid" Width="SizeToHeader"/>
                             <DataGridTemplateColumn x:Name="datacColumn" Header="datac" Width="100">
@@ -114,7 +119,7 @@
                             <DataGridTextColumn x:Name="oidColumn1" Binding="{Binding oid}" Header="oid" Width="SizeToHeader"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid x:Name="grid4" HorizontalAlignment="Left" Margin="383,252,0,0" VerticalAlignment="Top">
+                    <Grid x:Name="grid4" HorizontalAlignment="Left" Margin="304,252,0,0" VerticalAlignment="Top" Grid.Column="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -123,7 +128,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="oid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="oidComboBox" Grid.Column="1" DisplayMemberPath="oid" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120" >
+                        <ComboBox x:Name="oidComboBox" Grid.Column="1" DisplayMemberPath="oid" HorizontalAlignment="Left" Height="Auto"  Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120" >
                             <ComboBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <VirtualizingStackPanel/>
@@ -131,7 +136,7 @@
                             </ComboBox.ItemsPanel>
                         </ComboBox>
                     </Grid>
-                    <Grid x:Name="grid6" HorizontalAlignment="Left" Margin="383,333,0,0" VerticalAlignment="Top">
+                    <Grid x:Name="grid6" HorizontalAlignment="Left" Margin="304,333,0,0" VerticalAlignment="Top" Grid.Column="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -142,7 +147,7 @@
                         <Label Content="datac:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
                         <DatePicker x:Name="datacDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding datac, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid x:Name="grid3" HorizontalAlignment="Left" Margin="383,296,0,0" VerticalAlignment="Top">
+                    <Grid x:Name="grid3" HorizontalAlignment="Left" Margin="304,296,0,0" VerticalAlignment="Top" Grid.Column="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -151,7 +156,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="mid:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="midComboBox" Grid.Column="1" DisplayMemberPath="mid" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120">
+                        <ComboBox x:Name="midComboBox" Grid.Column="1" DisplayMemberPath="mid" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120">
                             <ComboBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <VirtualizingStackPanel/>
@@ -159,13 +164,13 @@
                             </ComboBox.ItemsPanel>
                         </ComboBox>
                     </Grid>
-                    <Button x:Name="btnNewComanda" Content="New" HorizontalAlignment="Left" Margin="164,31,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnNewComanda_Click" />
-                    <Button x:Name="btnEditComanda" Content="Edit" HorizontalAlignment="Left" Margin="164,70,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnEditComanda_Click" />
-                    <Button x:Name="btnDeleteComanda" Content="Delete" HorizontalAlignment="Left" Margin="164,109,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnDeleteComanda_Click"/>
-                    <Button x:Name="btnSaveComanda" Content="Save" HorizontalAlignment="Left" Margin="164,275,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnSaveComanda_Click" />
-                    <Button x:Name="btnCancelComanda" Content="Cancel" HorizontalAlignment="Left" Margin="164,320,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnCancelComanda_Click" />
-                    <Button x:Name="btnPrevComanda" Content="Previous" HorizontalAlignment="Left" Margin="362,200,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="btnPrevComanda_Click"/>
-                    <Button x:Name="btnNextComanda" Content="Next" HorizontalAlignment="Left" Margin="632,200,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="1" Click="btnNextComanda_Click"/>
+                    <Button x:Name="btnNewComanda" Content="New" HorizontalAlignment="Left" Margin="85,31,0,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Click="btnNewComanda_Click" />
+                    <Button x:Name="btnEditComanda" Content="Edit" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="2" Click="btnEditComanda_Click" />
+                    <Button x:Name="btnDeleteComanda" Content="Delete" HorizontalAlignment="Left" Margin="85,109,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="2" Click="btnDeleteComanda_Click"/>
+                    <Button x:Name="btnSaveComanda" Content="Save" HorizontalAlignment="Left" Margin="85,275,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="2" Click="btnSaveComanda_Click" />
+                    <Button x:Name="btnCancelComanda" Content="Cancel" HorizontalAlignment="Left" Margin="85,320,0,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Click="btnCancelComanda_Click" />
+                    <Button x:Name="btnPrevComanda" Content="Previous" HorizontalAlignment="Left" Margin="283,200,0,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Click="btnPrevComanda_Click"/>
+                    <Button x:Name="btnNextComanda" Content="Next" HorizontalAlignment="Left" Margin="553,200,0,0" VerticalAlignment="Top" Width="75"  Grid.Column="2" Click="btnNextComanda_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

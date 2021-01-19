@@ -32,7 +32,7 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
 
     public partial class MainWindow : Window
     {
-        ActionState action = ActionState.Nothing;
+        ActionState actionOspatar = ActionState.Nothing;
         ActionState actionMasa = ActionState.Nothing;
         ActionState actionComenzi = ActionState.Nothing;
         RestaurantEntitiesModel ctx = new RestaurantEntitiesModel();
@@ -53,7 +53,7 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
             System.Windows.Data.CollectionViewSource meseViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("meseViewSource")));
             System.Windows.Data.CollectionViewSource meseComenzisViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("meseComenzisViewSource")));
 
-
+            //Legare view-uri ospatari cu tabelele aferente din baza de date
             this.ospatariViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("ospatariViewSource")));
             this.ospatariViewSource.Source = ctx.Ospataris.Local;
             ctx.Ospataris.Load();
@@ -66,16 +66,17 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
             this.meseComenzisViewSource.Source = ctx.Comenzis.Local;
             ctx.Comenzis.Load();
 
+            //Legare combobox ospatari cu tabela ospatari
             oidComboBox.ItemsSource = ctx.Ospataris.Local;
             oidComboBox.DisplayMemberPath = "nume";
             oidComboBox.SelectedValuePath = "oid";
 
-
+            //Legare combobox mese cu tabela mese
             midComboBox.ItemsSource = ctx.Mese.Local;
             midComboBox.DisplayMemberPath = "mid";
             midComboBox.SelectedValuePath = "mid";
 
-            turnOn();
+            turnOnOspatari();
             turnOnMasa();
             turnOnComenzi();
         }
@@ -83,8 +84,9 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
         private void btnSaveOsp_Click(object sender, RoutedEventArgs e)
         {
             Ospatari ospatar = null;
-            if (action == ActionState.New)
+            if (actionOspatar == ActionState.New)
             {
+                //Adaugare ospatar nou
                 try
                 {
                     ospatar = new Ospatari()
@@ -93,6 +95,8 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                         nume = numeTextBox.Text.Trim(),
                         salariu = Decimal.Parse(salariuTextBox.Text.Trim())
                     };
+                    //Validarea si salvarea datelor
+                    validateOspatar(ospatar);
                     ctx.Ospataris.Add(ospatar);
                     ospatariViewSource.View.Refresh();
                     ctx.SaveChanges();
@@ -102,42 +106,48 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                     MessageBox.Show(ex.Message);
                 }
             }
-            else if (action == ActionState.Edit)
+            else if (actionOspatar == ActionState.Edit)
             {
+                //Editare ospatar selectat
                 try
                 {
                     ospatar = (Ospatari)ospatariDataGrid.SelectedItem;
                     ospatar.data_angajarii = DateTime.ParseExact(data_angajariiDatePicker.Text.Trim(), "dd/mm/yyyy", null);
                     ospatar.nume = numeTextBox.Text.Trim();
                     ospatar.salariu = Decimal.Parse(salariuTextBox.Text.Trim());
+                    //Validarea si actualizarea datelor
+                    validateOspatar(ospatar);
                     ctx.SaveChanges();
+                    ospatariViewSource.View.Refresh();
+                    ospatariViewSource.View.MoveCurrentTo(ospatar);
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
-                }
-                ospatariViewSource.View.Refresh();
-                ospatariViewSource.View.MoveCurrentTo(ospatar);
+                }              
             }
-            else if (action == ActionState.Delete)
+            else if (actionOspatar == ActionState.Delete)
             {
+                //Steregere ospatar selectat
                 try
                 {
                     ospatar = (Ospatari)ospatariDataGrid.SelectedItem;
                     ctx.Ospataris.Remove(ospatar);
                     ctx.SaveChanges();
+                    ospatariViewSource.View.Refresh();
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                ospatariViewSource.View.Refresh();
+               
             }
-            turnOn();
+            turnOnOspatari();
         }
 
-        private void turnOff() 
+        private void turnOffOspatari() 
         {
+            //Dezactivare zona sus
             btnNewOsp.IsEnabled = false;
             btnDeleteOsp.IsEnabled = false;
             btnEditOsp.IsEnabled = false;
@@ -155,8 +165,9 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
             salariuTextBox.IsEnabled = true;
 
         }
-        private void turnOn()
+        private void turnOnOspatari()
         {
+            //Activare zona sus
             btnNewOsp.IsEnabled = true;
             btnDeleteOsp.IsEnabled = true;
             btnEditOsp.IsEnabled = true;
@@ -173,32 +184,32 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
             numeTextBox.IsEnabled = false;
             salariuTextBox.IsEnabled = false;
 
-            action = ActionState.Nothing;
+            actionOspatar = ActionState.Nothing;
 
         }
 
         private void btnNewOsp_Click(object sender, RoutedEventArgs e)
         {
-            action = ActionState.New;
-            turnOff();
+            actionOspatar = ActionState.New;
+            turnOffOspatari();
         }
 
         private void btnEditOsp_Click(object sender, RoutedEventArgs e)
         {
-            action = ActionState.Edit;
-            turnOff();
+            actionOspatar = ActionState.Edit;
+            turnOffOspatari();
         }
 
         private void btnDeleteOsp_Click(object sender, RoutedEventArgs e)
         {
-            action = ActionState.Delete;
-            turnOff();
+            actionOspatar = ActionState.Delete;
+            turnOffOspatari();
         }
 
         private void btnCancelOsp_Click(object sender, RoutedEventArgs e)
         {
-            action = ActionState.Nothing;
-            turnOn();
+            actionOspatar = ActionState.Nothing;
+            turnOnOspatari();
         }
 
         private void btnPrevOsp_Click(object sender, RoutedEventArgs e)
@@ -223,6 +234,8 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                         amplasare = amplasareTextBox.Text.Trim(),
                         capacitate = int.Parse(capacitateTextBox.Text.Trim())
                     };
+                    //Validarea si salvarea datelor
+                    validateMasa(masa);
                     ctx.Mese.Add(masa);
                     meseViewSource.View.Refresh();
                     ctx.SaveChanges();
@@ -239,14 +252,17 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                     masa = (Mese)meseDataGrid.SelectedItem;
                     masa.amplasare = amplasareTextBox.Text.Trim();
                     masa.capacitate = int.Parse(capacitateTextBox.Text.Trim());
+                    //Validarea si actualizarea datelor
+                    validateMasa(masa);
                     ctx.SaveChanges();
+                    meseViewSource.View.Refresh();
+                    meseViewSource.View.MoveCurrentTo(masa);
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                meseViewSource.View.Refresh();
-                meseViewSource.View.MoveCurrentTo(masa);
+                
             }
             else if (actionMasa == ActionState.Delete)
             {
@@ -255,12 +271,13 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                     masa = (Mese)meseDataGrid.SelectedItem;
                     ctx.Mese.Remove(masa);
                     ctx.SaveChanges();
+                    meseViewSource.View.Refresh();
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                meseViewSource.View.Refresh();
+                
             }
             turnOnMasa();
             
@@ -342,7 +359,6 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
             oidComboBox.IsEnabled = true;
             datacDatePicker.IsEnabled = true;
 
-            actionComenzi = ActionState.Nothing;
         }
 
 
@@ -383,11 +399,13 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
 
         private void comenzisDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Apeleaza la selectarea unei comenzi
             try
             {
                 Comenzi com = (Comenzi)comenzisDataGrid.SelectedItem;
+                //Seteaza valorile actuale ale comboboxurilor cu valorile comenzii selectate (index incepe la 0, id la 1)
                 midComboBox.SelectedIndex = com.mid - 1;
-                oidComboBox.SelectedIndex = com.oid - 1;
+                oidComboBox.SelectedIndex = com.oid - 3;
             }
             catch (Exception ex)
             { }
@@ -403,12 +421,15 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                 {
                     Ospatari o = (Ospatari)oidComboBox.SelectedItem;
                     Mese m = (Mese)midComboBox.SelectedItem;
+
                     com = new Comenzi()
                     {
                         mid = m.mid,
                         oid = o.oid,
                         datac = DateTime.ParseExact(datacDatePicker.Text.Trim(), "dd/mm/yyyy", null)
                     };
+                    //Validarea si salvarea datelor
+                    validateComanda(com);
                     ctx.Comenzis.Add(com);
                     meseComenzisViewSource.View.Refresh();
                     ctx.SaveChanges(); 
@@ -424,30 +445,34 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
                 {
                     com = (Comenzi)comenzisDataGrid.SelectedItem;
                     com.datac = DateTime.ParseExact(datacDatePicker.Text.Trim(), "dd/mm/yyyy", null);
-                    com.mid = ((Mese)midComboBox.SelectedItem).mid;
                     com.oid = ((Ospatari)oidComboBox.SelectedItem).oid;
+                    com.mid = ((Mese)midComboBox.SelectedItem).mid;
+                    //Validarea si actualizarea datelor
+                    validateComanda(com);
                     ctx.SaveChanges();
+                    meseComenzisViewSource.View.Refresh();
+                    meseComenzisViewSource.View.MoveCurrentTo(com);
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                meseComenzisViewSource.View.Refresh();
-                meseComenzisViewSource.View.MoveCurrentTo(com);
+                
             }
-            else if (action == ActionState.Delete)
+            else if (actionComenzi == ActionState.Delete)
             {
                 try
                 {
                     com = (Comenzi)comenzisDataGrid.SelectedItem;
                     ctx.Comenzis.Remove(com);
                     ctx.SaveChanges();
+                    meseComenzisViewSource.View.Refresh();
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                meseComenzisViewSource.View.Refresh();
+                
             }
             turnOnComenzi();
         }
@@ -484,6 +509,45 @@ namespace Pirlogeanu_AlexandruGabriel_Proiect
         private void btnNextComanda_Click(object sender, RoutedEventArgs e)
         {
             meseComenzisViewSource.View.MoveCurrentToNext();
+        }
+
+        private void validateOspatar(Ospatari ospatar)
+        {
+            string m = "";
+            if (ospatar.data_angajarii > DateTime.Now)
+                m+="Data angajarii nu poate fi o data viitoare!\n";
+            if (ospatar.data_angajarii.DayOfWeek == DayOfWeek.Saturday || ospatar.data_angajarii.DayOfWeek == DayOfWeek.Sunday)
+                m+="Data angajarii nu poate fi o zi din weekend!\n";
+            if (ospatar.nume.Length < 3 || ospatar.nume.Length > 20)
+                m+="Numele trebuie sa aiba intre 3 si 20 caractere!\n";
+            if (!ospatar.nume.All(Char.IsLetter))
+                m+="Numele poate contine numai litere!\n";
+            if (ospatar.salariu < 1400)
+                m+="Salariul minim este 1400 lei!\n";
+            if (ospatar.salariu > 10000)
+                m+="Salariul maxim posibil este 10000 lei!\n";
+            if (m.Length > 0)
+                throw new DataException(m);
+        }
+
+        private void validateMasa(Mese masa)
+        {
+            string m = "";
+            if (masa.capacitate < 2)
+                m+="Capacitatea minima a unei mese este de 2 persoane!\n";
+            if (masa.capacitate > 8)
+                m+="Capacitatea maxima a unei mese este de 8 persoane!\n";
+            if (masa.amplasare != "Geam" && masa.amplasare != "Centru" && masa.amplasare != "Perete")
+                m+="Amplasarea poate fi: Geam, Perete, Centru!\n";
+            if (m.Length > 0)
+                throw new DataException(m);
+
+        }
+
+        private void validateComanda(Comenzi comanda)
+        {
+            if (comanda.datac > DateTime.Now)
+                throw new DataException("Data comenzii nu poate fi o data viitoare!");
         }
     }
 }
